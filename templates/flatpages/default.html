@@ -26,26 +26,38 @@ function GetURLParameter(sParam)
     var gacampaign = GetURLParameter('utm_campaign');
     var gaterm = GetURLParameter('utm_term');
 	
-	if (gasource = ""){
-	    var obj = { sourc: gasource, medium: gamedium, content: gacontent, campaign: gacampaign, term: gaterm};
-		$.cookie("MyTestCookie", $.param(obj), { expires: 10 });
-    }
-	else {
-	    var gasource = Request.Cookies["MyTestCookie"]["sourc"];
-		var gamedium = Request.Cookies["MyTestCookie"]["medium"];
-	}
-    
+		
  $(document).ready(function(){
- 
-    $('#field6').val(gasource);
-    $('#field7').val(gamedium);
-    $('#field8').val(gacontent);
-	$('#field9').val(gacampaign);
-	$('#field10').val(gaterm); 
-    });
+    if (gasource || gamedium || gacontent || gacampaign || gaterm) {
+	    $('#field6').val(gasource);
+		$('#field7').val(gamedium);
+		$('#field8').val(gacontent);
+		$('#field9').val(gacampaign);
+		$('#field10').val(gaterm); 
+		$.cookie('gasourceCookie', gasource, { expires: 7 });
+		$.cookie('gamediumCookie', gamedium, { expires: 7 });
+		$.cookie('gacontentCookie', gacontent, { expires: 7 });
+	}
+	else {
+		var cookieSource = $.cookie('gasourceCookie');
+		var cookieMedium = $.cookie('gamediumCookie');
+		var cookieContent = $.cookie('gacontentCookie');
+		$('#field6').val(cookieSource);
+		$('#field7').val(cookieMedium);
+		$('#field8').val(cookieContent);
+		
+	}
+	 
+	});
+	
+
   </script>
 </head>
 <body>
 {{ flatpage.content }}
+<a href="#" id="button" class="btn btn-success">Button</a>
+<input id="field6" value="" type="text" placeholder="Source Field"/>
+<input id="field7" value="" type="text" placeholder="Medium Field"/>
+<input id="field8" value="" type="text" placeholder="Content Field"/>
 </body>
 </html>
