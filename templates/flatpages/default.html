@@ -1,0 +1,51 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ flatpage.title }}</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="{% static 'js/jquery_cookie.js' %}" ></script>
+  <script type="text/javascript">
+function GetURLParameter(sParam)
+	{
+	    var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    for (var i = 0; i < sURLVariables.length; i++)
+	    {
+	        var sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] == sParam)
+	        {
+	            return sParameterName[1];
+  }	 
+  }
+}
+    var gasource = GetURLParameter('utm_source');
+    var gamedium = GetURLParameter('utm_medium');
+    var gacontent = GetURLParameter('utm_content');
+    var gacampaign = GetURLParameter('utm_campaign');
+    var gaterm = GetURLParameter('utm_term');
+	
+	if (gasource = ""){
+	    var obj = { sourc: gasource, medium: gamedium, content: gacontent, campaign: gacampaign, term: gaterm};
+		$.cookie("MyTestCookie", $.param(obj), { expires: 10 });
+    }
+	else {
+	    var gasource = Request.Cookies["MyTestCookie"]["sourc"];
+		var gamedium = Request.Cookies["MyTestCookie"]["medium"];
+	}
+    
+ $(document).ready(function(){
+ 
+    $('#field6').val(gasource);
+    $('#field7').val(gamedium);
+    $('#field8').val(gacontent);
+	$('#field9').val(gacampaign);
+	$('#field10').val(gaterm); 
+    });
+  </script>
+</head>
+<body>
+{{ flatpage.content }}
+</body>
+</html>
